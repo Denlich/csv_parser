@@ -1,3 +1,4 @@
 from .formatter import Formatter
 from .name_surname_formatter import NameSurnameFormatter
 from .welcome_with_name_formatter import WelcomeWithNameFormatter
+from .formatter_iterator import FormatterIterator
