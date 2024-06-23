@@ -1,11 +1,12 @@
 import csv
 from io import FileIO
-from typing import Generic, TypeVar
+from typing import Any, Callable, Generic, TypeVar
 from pathlib import Path
 
 from ..generators import ObjectGenerator
+from .csv_serializable import CsvSerializable
 
-T = TypeVar('T')
+T = TypeVar('T', bound=CsvSerializable)
 
 
 class CsvManager(Generic[T]):
@@ -36,3 +37,29 @@ class CsvManager(Generic[T]):
             for row in reader:
                 item = generator.generate(row)
                 self.__items.append(item)
+
+    def get_all(self) -> list[T]:
+        return self.__items
+
+    def find_by_index(self, index: int) -> T:
+        return self.__items[index]
+
+    def filter(self, predicate: Callable[[T], Any]) -> list[T]:
+        return filter(predicate, self.__items)
+
+    def __add_internal(self, item: T) -> None:
+        self.__items.append(item)
+        with open(self.__filePath, mode="a") as file:
+            file.write(item.serialize_to_string() + "\n")
+
+    def add(self, item: T) -> None:
+        self.__add_internal(item)
+
+    def clear(self) -> None:
+        self.items = []
+        with open(self.__filePath, "w"):
+            pass
+
+    def add_all(self, items: list[T]) -> None:
+        for item in items:
+            self.add(item)
