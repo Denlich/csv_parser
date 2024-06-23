@@ -3,11 +3,13 @@ from io import FileIO
 from typing import Generic, TypeVar
 from pathlib import Path
 
+from ..generators import ObjectGenerator
+
 T = TypeVar('T')
 
 
 class CsvManager(Generic[T]):
-    def __init__(self, fileName: str, generator):
+    def __init__(self, fileName: str, generator: ObjectGenerator):
         self.__file = fileName
         self.__items = generator
 
@@ -26,7 +28,7 @@ class CsvManager(Generic[T]):
         return self.__items
 
     @__items.setter
-    def __items(self, generator) -> None:
+    def __items(self, generator: ObjectGenerator) -> None:
         with self.__file as csv_file:
             file_content = csv_file.read().decode('utf-8')
 
