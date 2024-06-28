@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, Generic
-from ..csv import CsvSerializable
+from csv_utility import CsvSerializable
 
 T = TypeVar('T', bound=CsvSerializable)
 

@@ -1,6 +1,6 @@
 from typing import override
-from . import Formatter
-from ..entities import Student
+from formatters import Formatter
+from entities import Student
 
 
 class WelcomeWithNameFormatter(Formatter[Student]):
